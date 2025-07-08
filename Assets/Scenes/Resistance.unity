@@ -860,7 +860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetClicks: 50
-  _targetClickHold: 5
+  _targetClickHold: 10
   _resetCooldown: 1
   _targetProgressMorphStart: 0.1
   _holdPlayerDataTarget:
