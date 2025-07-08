@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class ClickMorpher : MonoBehaviour
@@ -10,6 +11,7 @@ public class ClickMorpher : MonoBehaviour
     [SerializeField] private PlayerData _holdPlayerDataTarget;
     [SerializeField] private PlayerData _clickPlayerDataTarget;
     [SerializeField] private float _timeToReverse = 2f;
+    [SerializeField] private float _winDelay = 2f;
 
     public float SeekWeight { private set; get; } = 0f;
 
@@ -120,6 +122,12 @@ public class ClickMorpher : MonoBehaviour
     {
         _isFinished = true;
         PlayerAppearance.DataInstance = _currentPlayerData;
+        StartCoroutine(LoadAfterDelay());
+    }
+
+    private IEnumerator LoadAfterDelay()
+    {
+        yield return new WaitForSeconds(_winDelay);
         SceneLoader.Instance.LoadNextScene();
     }
 }
