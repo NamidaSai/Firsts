@@ -15,20 +15,20 @@ public class PlayerAppearance : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Color targetColor;
 
-    private static PlayerData s_dataInstance;
+    public static PlayerData DataInstance;
 
     private void Awake()
     {
-        if (s_dataInstance != null)
+        if (DataInstance != null)
         {
             return;
         }
 
-        s_dataInstance = new PlayerData(targetColor);
+        DataInstance = new PlayerData(targetColor);
     }
 
     private void Start()
     {
-        spriteRenderer.color = s_dataInstance.Color;
+        spriteRenderer.color = DataInstance.Color;
     }
 }
