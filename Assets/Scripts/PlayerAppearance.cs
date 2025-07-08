@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class PlayerData
 {
     public Color Color;
@@ -29,6 +30,11 @@ public class PlayerAppearance : MonoBehaviour
 
     private void Start()
     {
-        spriteRenderer.color = DataInstance.Color;
+        SetAppearanceForPlayerData(DataInstance);
+    }
+
+    public void SetAppearanceForPlayerData(PlayerData playerData)
+    {
+        spriteRenderer.color = playerData.Color;
     }
 }
