@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b930e70870974b8ea8a84eb3f802dc5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seekMultiplier: 1.2
+  seekMultiplier: 0.2
   pushForce: {x: 2, y: 2}
   rotationSpeed: 4
   startMaxSpeed: 6

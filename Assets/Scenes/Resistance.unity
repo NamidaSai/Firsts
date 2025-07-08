@@ -859,7 +859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac08a0964fe4490acc0876c88bccab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetClicks: 20
+  _targetClicks: 50
   _targetClickHold: 5
   _resetCooldown: 1
   _targetProgressMorphStart: 0.1
