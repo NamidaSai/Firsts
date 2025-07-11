@@ -37,6 +37,7 @@ public class CursorManager : MonoBehaviour
         if (!Cursor.visible) { return; }
         
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         GetComponent<FollowMouse>().enabled = true;
         
         Vector3 targetScale = new Vector3(-punchScale, -punchScale, 0f);
@@ -51,6 +52,7 @@ public class CursorManager : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             GetComponent<FollowMouse>().enabled = false;
         }
     }
