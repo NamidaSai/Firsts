@@ -5,14 +5,17 @@ using UnityEngine.InputSystem;
 public class ClickMorpher : MonoBehaviour
 {
     [Header("Morph Requirements")]
-    [SerializeField] private int _targetClicks = 10;
-    [SerializeField] private float _targetClickHold = 5f;
-    [SerializeField] private float _targetProgressMorphStart = 0.1f;
+    [SerializeField] private int targetClicks = 10;
+    [SerializeField] private float targetClickHold = 5f;
+    [SerializeField] private float targetProgressMorphStart = 0.1f;
 
     [Header("Morph Timing")]
-    [SerializeField] private float _resetCooldown = 2f;
-    [SerializeField] private float _timeToReverse = 2f;
-    [SerializeField] private float _winDelay = 2f;
+    [SerializeField] private float resetCooldown = 2f;
+    [SerializeField] private float timeToReverse = 2f;
+    [SerializeField] private float winDelay = 2f;
+
+    [Header("Boid Settings")] 
+    [SerializeField] private float seekFactor = 1f;
 
     public float SeekWeight { get; private set; } = 0f;
 
@@ -57,12 +60,12 @@ public class ClickMorpher : MonoBehaviour
         _timeSinceLastClick += Time.deltaTime;
         _timeSinceLastRelease += Time.deltaTime;
 
-        if (_timeSinceLastClick >= _resetCooldown)
+        if (_timeSinceLastClick >= resetCooldown)
         {
             _timesClicked = 0;
         }
 
-        if (_timeSinceLastRelease >= _resetCooldown)
+        if (_timeSinceLastRelease >= resetCooldown)
         {
             _timeClickHeld = 0f;
         }
@@ -71,15 +74,15 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleMorphing()
     {
-        if (_timesClicked >= _targetClicks * _targetProgressMorphStart)
+        if (_timesClicked >= targetClicks * targetProgressMorphStart)
         {
             HandleClickOnlyMorphing();
         }
-        else if (_timeClickHeld >= _targetClickHold * _targetProgressMorphStart)
+        else if (_timeClickHeld >= targetClickHold * targetProgressMorphStart)
         {
             HandleClickHoldMorphing();
         }
-        else if (_timeSinceLastRelease >= _resetCooldown)
+        else if (_timeSinceLastRelease >= resetCooldown)
         {
             HandleReverseMorphing();
         }
@@ -87,9 +90,9 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleClickOnlyMorphing()
     {
-        float t = Mathf.Clamp01((float)_timesClicked / _targetClicks);
+        float t = Mathf.Clamp01((float)_timesClicked / targetClicks);
         _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Square, t);
-        SeekWeight = -t;
+        SeekWeight = -t * seekFactor;
 
         if (t >= 1f)
         {
@@ -99,9 +102,9 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleClickHoldMorphing()
     {
-        float t = Mathf.Clamp01(_timeClickHeld / _targetClickHold);
+        float t = Mathf.Clamp01(_timeClickHeld / targetClickHold);
         _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Triangle, t);
-        SeekWeight = t;
+        SeekWeight = t * seekFactor;
 
         if (t >= 1f)
         {
@@ -111,8 +114,8 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleReverseMorphing()
     {
-        float morphTime = _timeSinceLastRelease - _resetCooldown;
-        float t = Mathf.Clamp01(morphTime / _timeToReverse);
+        float morphTime = _timeSinceLastRelease - resetCooldown;
+        float t = Mathf.Clamp01(morphTime / timeToReverse);
         _playerAppearance.SetAppearanceFromTo(_playerAppearance.CurrentShape, PlayerShape.Circle, t);
         SeekWeight = 0f;
     }
@@ -125,7 +128,7 @@ public class ClickMorpher : MonoBehaviour
 
     private IEnumerator LoadAfterDelay()
     {
-        yield return new WaitForSeconds(_winDelay);
+        yield return new WaitForSeconds(winDelay);
         SceneLoader.Instance.LoadNextScene();
     }
 }
