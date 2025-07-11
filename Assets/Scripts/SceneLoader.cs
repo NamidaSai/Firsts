@@ -33,10 +33,13 @@ public class SceneLoader : MonoBehaviour
         
         fader.DOFade(1f, halfTransitionTime);
         yield return new WaitForSeconds(halfTransitionTime);
-        fader.DOFade(0f, halfTransitionTime);
         
+        DOTween.KillAll();
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
+
+        yield return null;
         
+        fader.DOFade(0f, halfTransitionTime);
     }
 }

@@ -153,6 +153,7 @@ public class ClickMorpher : MonoBehaviour
 
     private IEnumerator LoadAfterDelay()
     {
+        FindAnyObjectByType<StartZoomIn>().ZoomOut();
         yield return new WaitForSeconds(winDelay);
         SceneLoader.Instance.LoadNextScene();
     }
