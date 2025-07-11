@@ -8,6 +8,7 @@ public class FollowMouse : MonoBehaviour
     [SerializeField] private float velocityDamping = 5f;
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private float maxDelta = 500f;
+    [SerializeField] private float rotationSpeed = 12f;
 
     private Vector2 _velocity;
     private Camera _mainCamera;
@@ -22,9 +23,16 @@ public class FollowMouse : MonoBehaviour
     private void Update()
     {
         UpdateVelocityFromMouseDelta();
-        RotateTowardsMouse();
     }
 
+    private void LookAt(Vector2 targetPosition)
+    {
+        Vector2 direction = (targetPosition - (Vector2)_rigidbody2D.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
+        Quaternion desiredRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.fixedDeltaTime * rotationSpeed);
+    }
+    
     private void FixedUpdate()
     {
         Vector2 currentPosition = _rigidbody2D.position;
@@ -36,6 +44,8 @@ public class FollowMouse : MonoBehaviour
         Vector2 newPosition = Vector2.Lerp(currentPosition, destination, Time.fixedDeltaTime * moveSpeed);
         _rigidbody2D.MovePosition(newPosition);
 
+        LookAt(newPosition); 
+        
         _velocity = Vector2.Lerp(_velocity, Vector2.zero, Time.fixedDeltaTime * velocityDamping);
     }
 
@@ -51,17 +61,4 @@ public class FollowMouse : MonoBehaviour
 
         _velocity += worldDelta;
     }
-    
-    private void RotateTowardsMouse()
-    {
-        Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
-        Vector3 mouseWorldPos = _mainCamera.ScreenToWorldPoint(mouseScreenPos);
-        Vector2 directionToMouse = (mouseWorldPos - transform.position);
-
-        if (directionToMouse.sqrMagnitude > 0.001f)
-        {
-            float angle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg - 90f;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
-    } 
 }
