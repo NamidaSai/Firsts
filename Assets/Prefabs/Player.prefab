@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042e454f883fd344a9829036f0ced611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 2
   velocityDamping: 5
   obstacleLayer:
     serializedVersion: 2

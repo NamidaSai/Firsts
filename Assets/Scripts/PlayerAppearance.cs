@@ -43,10 +43,14 @@ public class PlayerAppearance : MonoBehaviour
 
     private void Start()
     {
-        SetAppearanceTo(DataInstance.Color);
         if (gameObject.CompareTag("Player"))
         {
+            SetAppearanceTo(DataInstance.Color);
             SetAppearanceFromTo(DataInstance.Shape, DataInstance.Shape, 1f);
+        }
+        else
+        {
+            SetAppearanceTo(targetColor);
         }
     }
 
@@ -58,9 +62,9 @@ public class PlayerAppearance : MonoBehaviour
             for (int i = 0; i < spriteRenderers.Length; i++)
             {
                 spriteRenderers[i].color = new Color(
-                    DataInstance.Color.r,
-                    DataInstance.Color.g,
-                    DataInstance.Color.b,
+                    newColor.r,
+                    newColor.g,
+                    newColor.b,
                     i == (int)DataInstance.Shape ? 1f : 0f
                 );
             }           
