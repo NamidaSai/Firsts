@@ -862,8 +862,8 @@ MonoBehaviour:
   targetClicks: 50
   targetClickHold: 10
   targetProgressMorphStart: 0.1
-  resetCooldown: 1
-  timeToReverse: 2
+  resetCooldown: 0.5
+  timeToReverse: 1
   winDelay: 2
   seekFactor: 1.2
 --- !u!1 &1926649298

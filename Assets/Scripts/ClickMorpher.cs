@@ -24,6 +24,8 @@ public class ClickMorpher : MonoBehaviour
     private float _timeSinceLastRelease = 0f;
     private float _timeSinceLastClick = 0f;
     private bool _isFinished = false;
+    private PlayerShape? _lastMorphTarget = null;
+    private float _lastMorphT = 0f;
 
     private PlayerAppearance _playerAppearance;
 
@@ -90,8 +92,14 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleClickOnlyMorphing()
     {
-        float t = Mathf.Clamp01((float)_timesClicked / targetClicks);
+        float progress = _timesClicked - targetClicks * targetProgressMorphStart;
+        float duration = targetClicks - targetClicks * targetProgressMorphStart;
+        float t = Mathf.Clamp01(progress / duration);
+        
         _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Square, t);
+        _lastMorphTarget = PlayerShape.Square;
+        _lastMorphT = t;
+        
         SeekWeight = -t * seekFactor;
 
         if (t >= 1f)
@@ -102,8 +110,14 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleClickHoldMorphing()
     {
-        float t = Mathf.Clamp01(_timeClickHeld / targetClickHold);
+        float progress = _timeClickHeld - targetClickHold * targetProgressMorphStart;
+        float duration = targetClickHold - targetClickHold * targetProgressMorphStart;
+        float t = Mathf.Clamp01(progress / duration);
+        
         _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Triangle, t);
+        _lastMorphTarget = PlayerShape.Triangle;
+        _lastMorphT = t;
+        
         SeekWeight = t * seekFactor;
 
         if (t >= 1f)
@@ -114,10 +128,21 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleReverseMorphing()
     {
-        float morphTime = _timeSinceLastRelease - resetCooldown;
-        float t = Mathf.Clamp01(morphTime / timeToReverse);
-        _playerAppearance.SetAppearanceFromTo(_playerAppearance.CurrentShape, PlayerShape.Circle, t);
+        if (_lastMorphTarget is null or PlayerShape.Circle) return;
+
+        float progress = _timeSinceLastRelease - resetCooldown;
+        float duration = timeToReverse;
+        float t = Mathf.Clamp01(progress / duration);
+        float adjustedT = Mathf.Lerp(1-_lastMorphT, 1f, t);
+        
+        _playerAppearance.SetAppearanceFromTo(_lastMorphTarget.Value, PlayerShape.Circle, adjustedT);
+
         SeekWeight = 0f;
+
+        if (t >= 1f)
+        {
+            _lastMorphTarget = null; // Reset after full reverse
+        }
     }
 
     private void FinishMorph()
