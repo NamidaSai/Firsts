@@ -65,6 +65,7 @@ public class ChangeAppearance : MonoBehaviour
         if (t >= 1f)
         {
             _isFinished = true;
+            FindAnyObjectByType<End>().AddOneCompleted();
         }
     }
 

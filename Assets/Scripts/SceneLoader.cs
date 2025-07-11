@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField] private float transitionTime = 1f;
     [SerializeField] private CanvasGroup fader;
+    [SerializeField] private bool startFadeIn = false;
+    [SerializeField] private float startFadeDuration = 5f;
     
     public static SceneLoader Instance;
 
@@ -21,6 +23,13 @@ public class SceneLoader : MonoBehaviour
         
         DontDestroyOnLoad(gameObject);
         Instance = this;
+    }
+
+    private void Start()
+    {
+        if (!startFadeIn) { return; }
+        fader.alpha = 1f;
+        fader.DOFade(0f, startFadeDuration);
     }
 
     public void LoadNextScene()
