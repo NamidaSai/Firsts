@@ -35,7 +35,7 @@ public class PlayerAppearance : MonoBehaviour
 
     private void Awake()
     {
-        if (DataInstance == null)
+        if (gameObject.CompareTag("Player") && DataInstance == null)
         {
             DataInstance = new PlayerData(targetColor);
         }
@@ -44,20 +44,38 @@ public class PlayerAppearance : MonoBehaviour
     private void Start()
     {
         SetAppearanceTo(DataInstance.Color);
-        SetAppearanceFromTo(DataInstance.Shape, DataInstance.Shape, 1f);
+        if (gameObject.CompareTag("Player"))
+        {
+            SetAppearanceFromTo(DataInstance.Shape, DataInstance.Shape, 1f);
+        }
     }
 
     public void SetAppearanceTo(Color newColor)
     {
-        DataInstance.Color = newColor;
-        for (int i = 0; i < spriteRenderers.Length; i++)
+        if (gameObject.CompareTag("Player"))
         {
-            spriteRenderers[i].color = new Color(
-                DataInstance.Color.r,
-                DataInstance.Color.g,
-                DataInstance.Color.b,
-                i == (int)DataInstance.Shape ? 1f : 0f
-            );
+            DataInstance.Color = newColor;
+            for (int i = 0; i < spriteRenderers.Length; i++)
+            {
+                spriteRenderers[i].color = new Color(
+                    DataInstance.Color.r,
+                    DataInstance.Color.g,
+                    DataInstance.Color.b,
+                    i == (int)DataInstance.Shape ? 1f : 0f
+                );
+            }           
+        }
+        else
+        {
+            for (int i = 0; i < spriteRenderers.Length; i++)
+            {
+                spriteRenderers[i].color = new Color(
+                    newColor.r,
+                    newColor.g,
+                    newColor.b,
+                    i == 0 ? 1f : 0f
+                );
+            }                      
         }
     }
 
@@ -75,7 +93,7 @@ public class PlayerAppearance : MonoBehaviour
             sr.color = new Color(baseColor.r, baseColor.g, baseColor.b, lerpedAlpha);
         }
 
-        if (t >= 1f)
+        if (t >= 1f && gameObject.CompareTag("Player"))
         {
             DataInstance.Shape = to;
         }
