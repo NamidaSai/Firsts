@@ -22,6 +22,7 @@ public class FollowMouse : MonoBehaviour
     private void Update()
     {
         UpdateVelocityFromMouseDelta();
+        RotateTowardsMouse();
     }
 
     private void FixedUpdate()
@@ -50,4 +51,17 @@ public class FollowMouse : MonoBehaviour
 
         _velocity += worldDelta;
     }
+    
+    private void RotateTowardsMouse()
+    {
+        Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
+        Vector3 mouseWorldPos = _mainCamera.ScreenToWorldPoint(mouseScreenPos);
+        Vector2 directionToMouse = (mouseWorldPos - transform.position);
+
+        if (directionToMouse.sqrMagnitude > 0.001f)
+        {
+            float angle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg - 90f;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+    } 
 }
