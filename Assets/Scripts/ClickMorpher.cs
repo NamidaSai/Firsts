@@ -4,14 +4,17 @@ using UnityEngine.InputSystem;
 
 public class ClickMorpher : MonoBehaviour
 {
+    [Header("Morph Requirements")]
     [SerializeField] private int _targetClicks = 10;
     [SerializeField] private float _targetClickHold = 5f;
-    [SerializeField] private float _resetCooldown = 2f;
     [SerializeField] private float _targetProgressMorphStart = 0.1f;
+
+    [Header("Morph Timing")]
+    [SerializeField] private float _resetCooldown = 2f;
     [SerializeField] private float _timeToReverse = 2f;
     [SerializeField] private float _winDelay = 2f;
 
-    public float SeekWeight { private set; get; } = 0f;
+    public float SeekWeight { get; private set; } = 0f;
 
     private int _timesClicked = 0;
     private float _timeClickHeld = 0f;
@@ -19,78 +22,76 @@ public class ClickMorpher : MonoBehaviour
     private float _timeSinceLastClick = 0f;
     private bool _isFinished = false;
 
-    private PlayerData _startPlayerData;
-    private PlayerData _currentPlayerData;
     private PlayerAppearance _playerAppearance;
 
     private void Start()
     {
-        _startPlayerData = new PlayerData(PlayerAppearance.DataInstance.Color);
-        _currentPlayerData = new PlayerData(PlayerAppearance.DataInstance.Color);
         _playerAppearance = FindAnyObjectByType<PlayerAppearance>();
     }
 
     private void Update()
     {
-        if (_isFinished) { return; }
-        
+        if (_isFinished) return;
+
+        HandleInput();
         HandleMorphing();
-        
-        // Click and Hold
-        if (Mouse.current.leftButton.isPressed && _timesClicked == 0)
-        {
-            _timeClickHeld += Time.deltaTime;
-            return;
-        }
-        
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+    }
+
+    private void HandleInput()
+    {
+        Mouse mouse = Mouse.current;
+
+        if (mouse.leftButton.wasReleasedThisFrame)
         {
             _timeSinceLastRelease = 0f;
             _timesClicked++;
             _timeSinceLastClick = 0f;
         }
-        
+
+        if (mouse.leftButton.isPressed)
+        {
+            _timeClickHeld += Time.deltaTime;
+            return;
+        }
+
         _timeSinceLastClick += Time.deltaTime;
+        _timeSinceLastRelease += Time.deltaTime;
+
         if (_timeSinceLastClick >= _resetCooldown)
         {
             _timesClicked = 0;
         }
-       
-        _timeSinceLastRelease += Time.deltaTime;
+
         if (_timeSinceLastRelease >= _resetCooldown)
         {
             _timeClickHeld = 0f;
         }
     }
 
+
     private void HandleMorphing()
     {
         if (_timesClicked >= _targetClicks * _targetProgressMorphStart)
         {
             HandleClickOnlyMorphing();
-            return;
         }
-        
-        if (_timeClickHeld >= _targetClickHold * _targetProgressMorphStart)
+        else if (_timeClickHeld >= _targetClickHold * _targetProgressMorphStart)
         {
             HandleClickHoldMorphing();
-            return;
         }
-        
-        HandleReverseMorphing();
+        else if (_timeSinceLastRelease >= _resetCooldown)
+        {
+            HandleReverseMorphing();
+        }
     }
 
     private void HandleClickOnlyMorphing()
     {
-        float lerpFactor = Mathf.Clamp01((float)_timesClicked / _targetClicks);
-        
-        _currentPlayerData.Shape = PlayerShape.Square;
-        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData, lerpFactor);
-        PlayerAppearance.DataInstance = _currentPlayerData;
+        float t = Mathf.Clamp01((float)_timesClicked / _targetClicks);
+        _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Square, t);
+        SeekWeight = -t;
 
-        SeekWeight = -lerpFactor;
-        
-        if (_timesClicked >= _targetClicks)
+        if (t >= 1f)
         {
             FinishMorph();
         }
@@ -98,15 +99,11 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleClickHoldMorphing()
     {
-        float lerpFactor = Mathf.Clamp01(_timeClickHeld / _targetClickHold);
-        
-        _currentPlayerData.Shape = PlayerShape.Triangle;
-        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData, lerpFactor);
-        PlayerAppearance.DataInstance = _currentPlayerData;
+        float t = Mathf.Clamp01(_timeClickHeld / _targetClickHold);
+        _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Triangle, t);
+        SeekWeight = t;
 
-        SeekWeight = lerpFactor;
-        
-        if (_timeClickHeld >= _targetClickHold)
+        if (t >= 1f)
         {
             FinishMorph();
         }
@@ -114,18 +111,11 @@ public class ClickMorpher : MonoBehaviour
 
     private void HandleReverseMorphing()
     {
-        if (_timeSinceLastRelease < _resetCooldown) { return; }
-
         float morphTime = _timeSinceLastRelease - _resetCooldown;
-        float lerpFactor = Mathf.Clamp01(morphTime / _timeToReverse);
-
-        _currentPlayerData.Shape = PlayerShape.Circle;
-        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData, lerpFactor);
-        PlayerAppearance.DataInstance = _currentPlayerData;
-
+        float t = Mathf.Clamp01(morphTime / _timeToReverse);
+        _playerAppearance.SetAppearanceFromTo(_playerAppearance.CurrentShape, PlayerShape.Circle, t);
         SeekWeight = 0f;
     }
-
 
     private void FinishMorph()
     {

@@ -30,41 +30,55 @@ public class PlayerAppearance : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer[] spriteRenderers;
     [SerializeField] private Color targetColor;
-    
+
     public static PlayerData DataInstance;
+    public PlayerShape CurrentShape { get; private set; }
 
     private void Awake()
     {
-        if (DataInstance != null)
+        if (DataInstance == null)
         {
-            return;
+            DataInstance = new PlayerData(targetColor);
         }
 
-        DataInstance = new PlayerData(targetColor);
+        CurrentShape = DataInstance.Shape;
+
+        // Initialise sprite renderer colours with targetColor and alpha = 0
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            spriteRenderers[i].color = new Color(
+                targetColor.r,
+                targetColor.g,
+                targetColor.b,
+                0f
+            );
+        }
     }
 
     private void Start()
     {
-        SetAppearanceForPlayerData(DataInstance);
+        // Set the initial appearance with full alpha on the current shape
+        SetAppearanceFromTo(CurrentShape, CurrentShape, 1f);
     }
 
-    public void SetAppearanceForPlayerData(PlayerData playerData, float progress = 1f)
+    public void SetAppearanceFromTo(PlayerShape from, PlayerShape to, float t)
     {
-        SpriteRenderer targetRenderer = spriteRenderers[(int)playerData.Shape];
-
-        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        for (int i = 0; i < spriteRenderers.Length; i++)
         {
-            Color rendererColor = spriteRenderer.color;
-            float rendererAlpha = spriteRenderer.color.a;
+            SpriteRenderer sr = spriteRenderers[i];
 
-            float lerpedAlpha = Mathf.Lerp(
-                rendererAlpha, 
-                spriteRenderer != targetRenderer ? 0f : 1f, 
-                progress
-            );
+            float fromAlpha = i == (int)from ? 1f : 0f;
+            float toAlpha = i == (int)to ? 1f : 0f;
+            float lerpedAlpha = Mathf.Lerp(fromAlpha, toAlpha, t);
 
-            spriteRenderer.color = new Color(
-                rendererColor.r, rendererColor.g, rendererColor.b, lerpedAlpha);
+            Color baseColor = sr.color;
+            sr.color = new Color(baseColor.r, baseColor.g, baseColor.b, lerpedAlpha);
+        }
+
+        if (t >= 1f)
+        {
+            CurrentShape = to;
+            DataInstance.Shape = to;
         }
     }
 }
