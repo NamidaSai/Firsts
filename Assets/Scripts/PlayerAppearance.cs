@@ -32,7 +32,6 @@ public class PlayerAppearance : MonoBehaviour
     [SerializeField] private Color targetColor;
 
     public static PlayerData DataInstance;
-    public PlayerShape CurrentShape { get; private set; }
 
     private void Awake()
     {
@@ -40,25 +39,26 @@ public class PlayerAppearance : MonoBehaviour
         {
             DataInstance = new PlayerData(targetColor);
         }
-
-        CurrentShape = DataInstance.Shape;
-
-        // Initialise sprite renderer colours with targetColor and alpha = 0
-        for (int i = 0; i < spriteRenderers.Length; i++)
-        {
-            spriteRenderers[i].color = new Color(
-                targetColor.r,
-                targetColor.g,
-                targetColor.b,
-                0f
-            );
-        }
     }
 
     private void Start()
     {
-        // Set the initial appearance with full alpha on the current shape
-        SetAppearanceFromTo(CurrentShape, CurrentShape, 1f);
+        SetAppearanceTo(DataInstance.Color);
+        SetAppearanceFromTo(DataInstance.Shape, DataInstance.Shape, 1f);
+    }
+
+    public void SetAppearanceTo(Color newColor)
+    {
+        DataInstance.Color = newColor;
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            spriteRenderers[i].color = new Color(
+                DataInstance.Color.r,
+                DataInstance.Color.g,
+                DataInstance.Color.b,
+                i == (int)DataInstance.Shape ? 1f : 0f
+            );
+        }
     }
 
     public void SetAppearanceFromTo(PlayerShape from, PlayerShape to, float t)
@@ -77,7 +77,6 @@ public class PlayerAppearance : MonoBehaviour
 
         if (t >= 1f)
         {
-            CurrentShape = to;
             DataInstance.Shape = to;
         }
     }

@@ -8,7 +8,7 @@ public class Exit : MonoBehaviour
     {
         if (!other.CompareTag("Player")) { return; }
         
-        PlayerAppearance.DataInstance.Color = targetColor;
+        FindAnyObjectByType<PlayerAppearance>().SetAppearanceTo(targetColor);
         SceneLoader.Instance.LoadNextScene();
     }
 }
