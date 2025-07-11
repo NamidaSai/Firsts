@@ -863,10 +863,6 @@ MonoBehaviour:
   _targetClickHold: 10
   _resetCooldown: 1
   _targetProgressMorphStart: 0.1
-  _holdPlayerDataTarget:
-    Color: {r: 1, g: 0, b: 0.8835201, a: 1}
-  _clickPlayerDataTarget:
-    Color: {r: 1, g: 0, b: 0, a: 1}
   _timeToReverse: 2
   _winDelay: 2
 --- !u!1 &1926649298

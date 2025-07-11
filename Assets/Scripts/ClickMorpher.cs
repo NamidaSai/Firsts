@@ -8,8 +8,6 @@ public class ClickMorpher : MonoBehaviour
     [SerializeField] private float _targetClickHold = 5f;
     [SerializeField] private float _resetCooldown = 2f;
     [SerializeField] private float _targetProgressMorphStart = 0.1f;
-    [SerializeField] private PlayerData _holdPlayerDataTarget;
-    [SerializeField] private PlayerData _clickPlayerDataTarget;
     [SerializeField] private float _timeToReverse = 2f;
     [SerializeField] private float _winDelay = 2f;
 
@@ -85,8 +83,10 @@ public class ClickMorpher : MonoBehaviour
     private void HandleClickOnlyMorphing()
     {
         float lerpFactor = Mathf.Clamp01((float)_timesClicked / _targetClicks);
-        _currentPlayerData.Color = Color.Lerp(_currentPlayerData.Color, _clickPlayerDataTarget.Color, lerpFactor);
-        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData);
+        
+        _currentPlayerData.Shape = PlayerShape.Square;
+        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData, lerpFactor);
+        PlayerAppearance.DataInstance = _currentPlayerData;
 
         SeekWeight = -lerpFactor;
         
@@ -99,8 +99,10 @@ public class ClickMorpher : MonoBehaviour
     private void HandleClickHoldMorphing()
     {
         float lerpFactor = Mathf.Clamp01(_timeClickHeld / _targetClickHold);
-        _currentPlayerData.Color = Color.Lerp(_currentPlayerData.Color, _holdPlayerDataTarget.Color, lerpFactor);
-        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData);
+        
+        _currentPlayerData.Shape = PlayerShape.Triangle;
+        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData, lerpFactor);
+        PlayerAppearance.DataInstance = _currentPlayerData;
 
         SeekWeight = lerpFactor;
         
@@ -109,19 +111,25 @@ public class ClickMorpher : MonoBehaviour
             FinishMorph();
         }
     }
-    
+
     private void HandleReverseMorphing()
     {
-        float lerpFactor = Mathf.Clamp01(_timeSinceLastRelease / (_resetCooldown + _timeToReverse));
-        _currentPlayerData.Color = Color.Lerp(_currentPlayerData.Color, _startPlayerData.Color, lerpFactor);
-        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData);
+        if (_timeSinceLastRelease < _resetCooldown) { return; }
+
+        float morphTime = _timeSinceLastRelease - _resetCooldown;
+        float lerpFactor = Mathf.Clamp01(morphTime / _timeToReverse);
+
+        _currentPlayerData.Shape = PlayerShape.Circle;
+        _playerAppearance.SetAppearanceForPlayerData(_currentPlayerData, lerpFactor);
+        PlayerAppearance.DataInstance = _currentPlayerData;
+
         SeekWeight = 0f;
     }
+
 
     private void FinishMorph()
     {
         _isFinished = true;
-        PlayerAppearance.DataInstance = _currentPlayerData;
         StartCoroutine(LoadAfterDelay());
     }
 
