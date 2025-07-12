@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 [System.Serializable]
 public class PlayerData
@@ -56,30 +57,31 @@ public class PlayerAppearance : MonoBehaviour
 
     public void SetAppearanceTo(Color newColor)
     {
-        if (gameObject.CompareTag("Player"))
+        bool isPlayer = gameObject.CompareTag("Player");
+        int visibleIndex = isPlayer ? (int)DataInstance.Shape : 0;
+
+        if (isPlayer)
         {
             DataInstance.Color = newColor;
-            for (int i = 0; i < spriteRenderers.Length; i++)
-            {
-                spriteRenderers[i].color = new Color(
-                    newColor.r,
-                    newColor.g,
-                    newColor.b,
-                    i == (int)DataInstance.Shape ? 1f : 0f
-                );
-            }           
         }
-        else
+
+        for (int i = 0; i < spriteRenderers.Length; i++)
         {
-            for (int i = 0; i < spriteRenderers.Length; i++)
+            float targetAlpha = i == visibleIndex ? 1f : 0f;
+            Color newTargetColor = new Color(
+                newColor.r,
+                newColor.g,
+                newColor.b,
+                targetAlpha
+            );
+
+            if (isPlayer && i == visibleIndex)
             {
-                spriteRenderers[i].color = new Color(
-                    newColor.r,
-                    newColor.g,
-                    newColor.b,
-                    i == 0 ? 1f : 0f
-                );
-            }                      
+                spriteRenderers[i].DOColor(newTargetColor, 1f);
+                continue;
+            }
+            
+            spriteRenderers[i].color = newTargetColor;
         }
     }
 
