@@ -867,6 +867,23 @@ MonoBehaviour:
   timeToReverse: 1
   winDelay: 2
   seekFactor: 1.2
+--- !u!114 &1871100044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871100031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a54516de720721f408268ffe60e61466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchScaleClick: 0.35
+  punchScaleHold: 0.15
+  punchDuration: 0.35
+  punchVibrato: 3
+  punchElasticity: 0.2
 --- !u!1 &1926649298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,6 +1134,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8429674325114728041, guid: f17cca8c84d670246b4280667fcf05d6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1871100043}
+    - targetCorrespondingSourceObject: {fileID: 8429674325114728041, guid: f17cca8c84d670246b4280667fcf05d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1871100044}
   m_SourcePrefab: {fileID: 100100000, guid: f17cca8c84d670246b4280667fcf05d6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -148,6 +148,7 @@ public class ClickMorpher : MonoBehaviour
     private void FinishMorph()
     {
         _isFinished = true;
+        GetComponent<ClickAffordance>().enabled = false;
         StartCoroutine(LoadAfterDelay());
     }
 
