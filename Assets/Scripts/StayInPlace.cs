@@ -4,6 +4,7 @@ using UnityEngine;
 public class StayInPlace : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float rotationSpeed = 12f;
 
     private Rigidbody2D _thisRigidbody;
     private Vector2 _startPosition;
@@ -17,6 +18,8 @@ public class StayInPlace : MonoBehaviour
     private void FixedUpdate()
     {
         MoveTowardsStartPosition();
+        Vector2 velocityTarget = _thisRigidbody.position + _thisRigidbody.linearVelocity.normalized;
+        LookAt(velocityTarget);  
     }
 
     private void MoveTowardsStartPosition()
@@ -34,5 +37,13 @@ public class StayInPlace : MonoBehaviour
         Vector2 move = direction.normalized * moveSpeed;
         _thisRigidbody.linearVelocity = move;
     }
+    
+    private void LookAt(Vector2 targetPosition)
+    {
+        Vector2 direction = (targetPosition - (Vector2)_thisRigidbody.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
+        Quaternion desiredRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.fixedDeltaTime * rotationSpeed);
+    } 
 }
 
