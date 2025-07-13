@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1611759931073085312}
   - component: {fileID: 8273473210101363158}
   - component: {fileID: 2633797084817897168}
+  - component: {fileID: 6831324152039943330}
   m_Layer: 6
   m_Name: Boid
   m_TagString: Untagged
@@ -137,6 +138,31 @@ MonoBehaviour:
   cohesionDistance: 3.5
   cohereWeight: 0.05
   wanderWeight: 1
+--- !u!114 &6831324152039943330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4615214162081558852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef65bfe06b96aa4a9d2b64bac1ad03e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allColors:
+  - {r: 0.19215688, g: 0.19215688, b: 0.20000002, a: 1}
+  - {r: 0.83, g: 0.83, b: 0.83, a: 1}
+  - {r: 0.58, g: 0.56935775, b: 0.56137615, a: 1}
+  - {r: 0.41, g: 0.41, b: 0.41, a: 1}
+  - {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
+  - {r: 0.8862746, g: 0.8431373, b: 0.7803922, a: 1}
+  - {r: 0.66666657, g: 0.63677293, b: 0.5932913, a: 1}
+  - {r: 0.5345911, g: 0.48048443, b: 0.40178382, a: 1}
+  - {r: 0.6603774, g: 0.6182945, b: 0.5503144, a: 1}
+  - {r: 0.45911938, g: 0.4238913, b: 0.37104928, a: 1}
+  - {r: 0.3207547, g: 0.29491514, b: 0.2531743, a: 1}
+  spriteRenderer: {fileID: 3049476929745096666}
 --- !u!1 &8930109833013920510
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,11 +236,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1734871709
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.48235297, g: 0.46274513, b: 0.43921572, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
