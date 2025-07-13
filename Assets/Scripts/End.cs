@@ -16,5 +16,11 @@ public class End : MonoBehaviour
         if (!other.CompareTag("Player")) { return; }
         if (_currentCompleted < completeRequired) { return; }
         SceneLoader.Instance.LoadNextScene();
+        
+        MusicPlayer musicPlayer = FindAnyObjectByType<MusicPlayer>();
+        if (musicPlayer)
+        {
+            musicPlayer.PlayWithoutLoop("end");
+        } 
     }
 }

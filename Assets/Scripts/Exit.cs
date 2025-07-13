@@ -14,5 +14,11 @@ public class Exit : MonoBehaviour
         _wasActivated = true;
         GameObject.FindWithTag("Player").GetComponent<PlayerAppearance>().SetAppearanceTo(targetColor);
         SceneLoader.Instance.LoadNextScene();
+
+        MusicPlayer musicPlayer = FindAnyObjectByType<MusicPlayer>();
+        if (musicPlayer)
+        {
+            musicPlayer.Play("resistance");
+        }
     }
 }
