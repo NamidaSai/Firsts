@@ -85,8 +85,11 @@ public class PlayerAppearance : MonoBehaviour
         }
     }
 
-    public void SetAppearanceFromTo(PlayerShape from, PlayerShape to, float t)
+    public void SetAppearanceFromTo(PlayerShape from, PlayerShape to, float t, bool easedOut = false)
     {
+        float easedT = LogEaseOut(t, 9f);
+        t = easedOut ? easedT : t;
+        
         for (int i = 0; i < spriteRenderers.Length; i++)
         {
             SpriteRenderer sr = spriteRenderers[i];
@@ -103,5 +106,12 @@ public class PlayerAppearance : MonoBehaviour
         {
             DataInstance.Shape = to;
         }
+    }
+    
+    private float LogEaseOut(float t, float a = 9f)
+    {
+        // a > 0 controls curvature; try 4, 9, 19
+        // t' = log(1 + a*t) / log(1 + a), maps [0,1] -> [0,1], concave down
+        return Mathf.Log(1f + a * t) / Mathf.Log(1f + a);
     }
 }

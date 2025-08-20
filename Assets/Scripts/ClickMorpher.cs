@@ -96,7 +96,7 @@ public class ClickMorpher : MonoBehaviour
         float duration = targetClicks - targetClicks * targetProgressMorphStart;
         float t = Mathf.Clamp01(progress / duration);
         
-        _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Square, t);
+        _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Square, t, true);
         _lastMorphTarget = PlayerShape.Square;
         _lastMorphT = t;
         
@@ -114,7 +114,7 @@ public class ClickMorpher : MonoBehaviour
         float duration = targetClickHold - targetClickHold * targetProgressMorphStart;
         float t = Mathf.Clamp01(progress / duration);
         
-        _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Triangle, t);
+        _playerAppearance.SetAppearanceFromTo(PlayerShape.Circle, PlayerShape.Triangle, t, true);
         _lastMorphTarget = PlayerShape.Triangle;
         _lastMorphT = t;
         
