@@ -17,10 +17,6 @@ public class ClickMorpher : MonoBehaviour
     [Header("Boid Settings")] 
     [SerializeField] private float seekFactor = 1f;
 
-    [Header("Object References")] 
-    [SerializeField] private ParticleSystem particleSystemClick;
-    [SerializeField] private ParticleSystem particleSystemHold;
-    
     public float SeekWeight { get; private set; } = 0f;
 
     private int _timesClicked = 0;
@@ -36,24 +32,6 @@ public class ClickMorpher : MonoBehaviour
     private void Start()
     {
         _playerAppearance = FindAnyObjectByType<PlayerAppearance>();
-        
-        Color playerColor = PlayerAppearance.DataInstance.Color;
-        ParticleSystem.MainModule clickModule = particleSystemClick.main;
-        clickModule.startColor = new Color
-        (
-            playerColor.r,
-            playerColor.g,
-            playerColor.b,
-            clickModule.startColor.color.a
-        );
-        ParticleSystem.MainModule holdModule = particleSystemHold.main;
-        holdModule.startColor = new Color
-        (
-            playerColor.r,
-            playerColor.g,
-            playerColor.b,
-            holdModule.startColor.color.a
-        );
     }
 
     private void Update()
@@ -73,7 +51,6 @@ public class ClickMorpher : MonoBehaviour
             _timeSinceLastRelease = 0f;
             _timesClicked++;
             _timeSinceLastClick = 0f;
-            particleSystemClick.Play();
         }
 
         if (mouse.leftButton.isPressed)
@@ -147,16 +124,10 @@ public class ClickMorpher : MonoBehaviour
         {
             FinishMorph();
         }
-        
-        if (!particleSystemHold.isPlaying)
-        {
-            particleSystemHold.Play();
-        }
     }
 
     private void HandleReverseMorphing()
     {
-        particleSystemHold.Stop();
         if (_lastMorphTarget is null or PlayerShape.Circle) return;
 
         float progress = _timeSinceLastRelease - resetCooldown;
