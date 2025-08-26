@@ -36,6 +36,7 @@ public class ClickMorpher : MonoBehaviour
 
     private void Update()
     {
+        if (Cursor.visible) { return; }
         if (_isFinished) return;
 
         HandleInput();

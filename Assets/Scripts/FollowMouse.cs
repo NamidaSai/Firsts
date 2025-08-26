@@ -22,6 +22,7 @@ public class FollowMouse : MonoBehaviour
 
     private void Update()
     {
+        if (Cursor.visible) { return; }
         UpdateVelocityFromMouseDelta();
     }
 
