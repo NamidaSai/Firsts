@@ -52,6 +52,7 @@ public class ClickAffordance : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             particleSystemClick.Play();
+            AudioManager.Instance?.Play("click");
             StartPunch(punchScaleClick, 1f);
         }
         else if (Mouse.current.leftButton.isPressed)
@@ -60,6 +61,7 @@ public class ClickAffordance : MonoBehaviour
             {
                 particleSystemHold.Play();
             }
+            AudioManager.Instance?.Play("hold");
             StartPunch(punchScaleHold, -1f);
         }
     }

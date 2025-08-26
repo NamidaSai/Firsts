@@ -43,6 +43,8 @@ public class CursorManager : MonoBehaviour
         Vector3 targetScale = new Vector3(-punchScale, -punchScale, 0f);
         transform.localScale = _startScale;
         transform.DOPunchScale(targetScale, punchDuration, punchVibrato, punchElasticity);
+
+        AudioManager.Instance?.Play("possession");
     }
 
     private void Update()
@@ -54,6 +56,8 @@ public class CursorManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             GetComponent<FollowMouse>().enabled = false;
+
+            AudioManager.Instance?.Play("depossession");
         }
     }
 }

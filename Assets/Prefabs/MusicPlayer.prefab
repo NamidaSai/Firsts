@@ -47,7 +47,7 @@ MonoBehaviour:
   tracks:
   - name: intro
     clip: {fileID: 8300000, guid: 319cc2d0dd2a1fd4f94a91b9a4268ff2, type: 3}
-    volume: 0.02
+    volume: 0.1
     pitch: 1
     randomPitch: 0
     loop: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: adieu
     clip: {fileID: 8300000, guid: 2fb58fde515a61140b3190864a100e67, type: 3}
-    volume: 0.02
+    volume: 0.1
     pitch: 1
     randomPitch: 0
     loop: 1
@@ -63,7 +63,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: resistance
     clip: {fileID: 8300000, guid: 7a1a80347f536b64ea82df3efc9ba35b, type: 3}
-    volume: 0.02
+    volume: 0.1
     pitch: 1
     randomPitch: 0
     loop: 1
@@ -71,7 +71,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: end
     clip: {fileID: 8300000, guid: fb2386b2afc00504780804d210e831f2, type: 3}
-    volume: 0.02
+    volume: 0.1
     pitch: 1
     randomPitch: 0
     loop: 0

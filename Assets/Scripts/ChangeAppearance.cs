@@ -66,6 +66,7 @@ public class ChangeAppearance : MonoBehaviour
         {
             _isFinished = true;
             FindAnyObjectByType<End>().AddOneCompleted();
+            AudioManager.Instance?.Play("changed");
         }
     }
 

@@ -48,6 +48,8 @@ public class SceneLoader : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
 
+        AudioManager.Instance?.Play("transition");
+
         yield return null;
         
         fader.DOFade(0f, halfTransitionTime);

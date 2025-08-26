@@ -47,39 +47,39 @@ MonoBehaviour:
   sounds:
   - name: possession
     clip: {fileID: 8300000, guid: 5682477fa486e6447a605abff6c59b1d, type: 3}
-    volume: 1
-    pitch: 1
+    volume: 0.012
+    pitch: 1.15
     randomPitch: 0
     loop: 0
     stopOnPause: 0
     source: {fileID: 0}
   - name: depossession
     clip: {fileID: 8300000, guid: f8bd703842d515242934504a41a95bd7, type: 3}
-    volume: 1
-    pitch: 1
+    volume: 0.1
+    pitch: 1.8
     randomPitch: 0
     loop: 0
     stopOnPause: 0
     source: {fileID: 0}
   - name: collision
     clip: {fileID: 8300000, guid: ff1c3ef70e387874d91937e8966addab, type: 3}
-    volume: 1
-    pitch: 1
+    volume: 0.1
+    pitch: 0.8
     randomPitch: 1
     loop: 0
     stopOnPause: 0
     source: {fileID: 0}
   - name: transition
     clip: {fileID: 8300000, guid: cb6c68951ae40854ebbbd87a4f689e17, type: 3}
-    volume: 1
-    pitch: 1
+    volume: 0.025
+    pitch: 2
     randomPitch: 0
     loop: 0
     stopOnPause: 0
     source: {fileID: 0}
   - name: click
     clip: {fileID: 8300000, guid: 115d08a51d08d8646abb375fef4fe54e, type: 3}
-    volume: 0.5
+    volume: 0.1
     pitch: 1
     randomPitch: 1
     loop: 0
@@ -87,9 +87,17 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: hold
     clip: {fileID: 8300000, guid: 115d08a51d08d8646abb375fef4fe54e, type: 3}
-    volume: 0.1
-    pitch: 1
+    volume: 0.05
+    pitch: 0.65
     randomPitch: 1
+    loop: 0
+    stopOnPause: 0
+    source: {fileID: 0}
+  - name: changed
+    clip: {fileID: 8300000, guid: cb6c68951ae40854ebbbd87a4f689e17, type: 3}
+    volume: 0.015
+    pitch: 1.2
+    randomPitch: 0
     loop: 0
     stopOnPause: 0
     source: {fileID: 0}
