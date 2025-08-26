@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      4K-knit_1_ambientocclusion_0: -8019357167680581344
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Concrete002_4K_Displacement_0: -6559749825532904131
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

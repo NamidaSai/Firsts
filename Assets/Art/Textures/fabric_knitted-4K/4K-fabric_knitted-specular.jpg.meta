@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      4K-fabric_knitted-specular_0: 4634600067797766972
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

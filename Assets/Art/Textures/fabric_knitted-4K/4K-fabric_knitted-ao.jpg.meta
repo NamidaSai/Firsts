@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      4K-fabric_knitted-ao_0: 3831043843116767483
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

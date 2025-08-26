@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Fabric032_4K_Roughness_0: 8342814901203602435
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
