@@ -8,9 +8,8 @@ public class AutoReleaser : MonoBehaviour
        
        private CursorManager _cursorManager;
        
-       private void OnValidate()
+       private void Awake()
        {
-              if (_cursorManager) { return; }
               _cursorManager = GetComponent<CursorManager>();
        }
 
