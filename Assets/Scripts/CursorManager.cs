@@ -43,7 +43,7 @@ public class CursorManager : MonoBehaviour
     {
         if (Cursor.visible) { return; }
         
-        if (Keyboard.current.escapeKey.wasPressedThisFrame) { ReleaseCursor(); }
+        if (Keyboard.current.anyKey.wasPressedThisFrame) { ReleaseCursor(); }
     }
 
     private void CaptureCursor()
