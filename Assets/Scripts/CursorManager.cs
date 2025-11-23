@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -44,7 +45,7 @@ public class CursorManager : MonoBehaviour
         
         if (Keyboard.current.escapeKey.wasPressedThisFrame) { ReleaseCursor(); }
     }
-    
+
     private void CaptureCursor()
     {
         Cursor.visible = false;
