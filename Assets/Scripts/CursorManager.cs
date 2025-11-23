@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,7 +34,19 @@ public class CursorManager : MonoBehaviour
     private void OnMouseDown()
     {
         if (!Cursor.visible) { return; }
+
+        CaptureCursor();
+    }
+
+    private void Update()
+    {
+        if (Cursor.visible) { return; }
         
+        if (Keyboard.current.escapeKey.wasPressedThisFrame) { ReleaseCursor(); }
+    }
+    
+    private void CaptureCursor()
+    {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         GetComponent<FollowMouse>().enabled = true;
@@ -47,17 +58,12 @@ public class CursorManager : MonoBehaviour
         AudioManager.Instance?.Play("possession");
     }
 
-    private void Update()
+    public void ReleaseCursor()
     {
-        if (Cursor.visible) { return; }
-        
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            GetComponent<FollowMouse>().enabled = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        GetComponent<FollowMouse>().enabled = false;
 
-            AudioManager.Instance?.Play("depossession");
-        }
+        AudioManager.Instance?.Play("depossession");
     }
 }
